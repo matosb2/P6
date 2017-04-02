@@ -101,7 +101,7 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-         beforeEach(function(done) {
+        beforeEach(function(done) {
             loadFeed(0, function() {
                 title = $(".feed .entry h2").html();
                 header = $("h1.header-title").html();
@@ -109,16 +109,16 @@ $(function() {
                     done();
                 });
             });
-         });
+        });
 
-         it('feed content changes', function(done) {
+        it('feed content changes', function(done) {
             expect($(".feed .entry h2").html()).not.toBe(title);
             expect($("h1.header-title").html()).not.toBe(header);
             done();
-         });
+        });
 
-         afterAll(function(done) {
+        afterAll(function(done) {
             loadFeed(0, done);
-         });
+        });
     });
 }());
