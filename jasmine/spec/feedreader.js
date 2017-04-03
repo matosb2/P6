@@ -34,7 +34,7 @@ $(function() {
         it('URL is defined', function() {
             allFeeds.forEach(function(feed) {
                 expect(feed.url).toBeDefined();
-                expect(feed.url).not.toBe(0);
+                expect(feed.url.length).not.toBe(0);
             });
         });
 
@@ -46,11 +46,10 @@ $(function() {
         it('name is defined', function() {
             allFeeds.forEach(function(feed) {
                 expect(feed.name).toBeDefined();
-                expect(feed.name).not.toBe(0);
+                expect(feed.name.length).not.toBe(0);
             });
         });
     });
-
 
     /* Write a new test suite named "The menu" */
     describe('The Menu', function() {
@@ -89,9 +88,14 @@ $(function() {
             loadFeed(0, done);
         });
 
-        it('one entry in feed container', function(done) {
-            expect($('.feed').children().length).not.toBe(0);
-            done();
+        /* .feed.entry is displaying 10 .entry elements within .feed container.
+         * Set the expect to check to make sure the 10 .entry elements are not 0
+         * thus allowing the test to pass because if it's displaying 10 than that's at least
+         * a single entry in the .feed container.
+         */
+        it('one entry in feed container', function() {
+            //console.log($('.feed .entry').length);
+            expect($('.feed .entry').length).not.toBe(0);
         });
     });
     /* Write a new test suite named "New Feed Selection"*/
@@ -101,24 +105,16 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-        beforeEach(function(done) {
+        it('feed content changes', function(done) {
             loadFeed(0, function() {
                 title = $(".feed .entry h2").html();
                 header = $("h1.header-title").html();
                 loadFeed(1, function() {
+                    expect($('.feed .entry h2').html()).not.toBe(title);
+                    expect($('h1.header-title').html()).not.toBe(header);
                     done();
                 });
             });
-        });
-
-        it('feed content changes', function(done) {
-            expect($(".feed .entry h2").html()).not.toBe(title);
-            expect($("h1.header-title").html()).not.toBe(header);
-            done();
-        });
-
-        afterAll(function(done) {
-            loadFeed(0, done);
         });
     });
 }());
